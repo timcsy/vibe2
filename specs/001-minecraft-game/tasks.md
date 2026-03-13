@@ -162,7 +162,7 @@
 - [X] T041 [P] Add `saves/` and `.venv/` to `.gitignore`
 - [X] T042 Write integration test covering full gameplay flow (world gen → move → break → craft → save → load) in `tests/integration/test_gameplay.py`
 - [X] T043 [P] Audit type hints and add missing annotations across all `src/` modules
-- [ ] T044 Run quickstart.md validation: install dependencies, launch game, verify 60 fps target and ≤100ms block-op response
+- [X] T044 Run quickstart.md validation: install dependencies, launch game, verify 60 fps target and ≤100ms block-op response
 
 ---
 
