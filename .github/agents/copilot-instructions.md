@@ -3,6 +3,8 @@
 Auto-generated from all feature plans. Last updated: 2026-03-13
 
 ## Active Technologies
+- Python 3.11 + Ursina Engine 6.x (game engine on Panda3D), noise (perlin noise for world gen), pickle / json (serialization) (001-minecraft-game)
+- JSON/pickle files (local save files) (001-minecraft-game)
 
 - **Language**: Python 3.11
 - **Game Engine**: Ursina Engine 6.x (built on Panda3D)
@@ -76,6 +78,7 @@ pytest -v tests/
 - Sparse dict representation for chunk blocks (omit AIR blocks)
 
 ## Recent Changes
+- 001-minecraft-game: Added Python 3.11 + Ursina Engine 6.x (game engine on Panda3D), noise (perlin noise for world gen), pickle / json (serialization)
 
 - **001-minecraft-game**: Initial feature — 3D sandbox voxel game with procedural world gen, block interaction, crafting, survival mechanics, day/night cycle, enemies, and save/load
 
