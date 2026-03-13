@@ -1,104 +1,96 @@
-# Implementation Plan: [FEATURE]
+# Implementation Plan: Minecraft-Like Sandbox Game
 
-**Branch**: `[###-feature-name]` | **Date**: [DATE] | **Spec**: [link]
-**Input**: Feature specification from `/specs/[###-feature-name]/spec.md`
+**Branch**: `001-minecraft-game` | **Date**: 2026-03-13 | **Spec**: [spec.md](./spec.md)
+**Input**: Feature specification from `/specs/001-minecraft-game/spec.md`
 
-**Note**: This template is filled in by the `/speckit.plan` command. See `.specify/templates/plan-template.md` for the execution workflow.
+**Note**: This file is the output of the `/speckit.plan` command.
 
 ## Summary
 
-[Extract from feature spec: primary requirement + technical approach from research]
+A 3D sandbox voxel game inspired by Minecraft, implemented as a desktop PC application. Built with Python + Ursina Engine (a Python-based game engine built on Panda3D) for rapid development. The game features procedural world generation, block interaction, crafting, survival mechanics, and persistent save/load.
 
 ## Technical Context
 
-<!--
-  ACTION REQUIRED: Replace the content in this section with the technical details
-  for the project. The structure here is presented in advisory capacity to guide
-  the iteration process.
--->
-
-**Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]  
-**Primary Dependencies**: [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]  
-**Storage**: [if applicable, e.g., PostgreSQL, CoreData, files or N/A]  
-**Testing**: [e.g., pytest, XCTest, cargo test or NEEDS CLARIFICATION]  
-**Target Platform**: [e.g., Linux server, iOS 15+, WASM or NEEDS CLARIFICATION]
-**Project Type**: [e.g., library/cli/web-service/mobile-app/compiler/desktop-app or NEEDS CLARIFICATION]  
-**Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]  
-**Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]  
-**Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
+**Language/Version**: Python 3.11
+**Primary Dependencies**: Ursina Engine 6.x (game engine on Panda3D), noise (perlin noise for world gen), pickle / json (serialization)
+**Storage**: JSON/pickle files (local save files)
+**Testing**: pytest + pytest-mock
+**Target Platform**: Desktop PC (Windows/macOS/Linux)
+**Project Type**: desktop-app (3D game)
+**Performance Goals**: 60 fps target, block operations ≤100ms, save/load ≤10s
+**Constraints**: Single-player only; finite but large world; offline; no mobile/console
+**Scale/Scope**: Single game session; world chunks ~16x16x16; inventory ≤36 slots
 
 ## Constitution Check
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+| Principle | Status | Notes |
+|-----------|--------|-------|
+| I. Spec-Driven | ✓ PASS | spec.md exists with clear requirements and acceptance criteria |
+| II. Design-First | ✓ PASS | plan.md being created before implementation |
+| III. Automated Workflow | ✓ PASS | speckit toolchain used to generate this plan |
+| IV. TDD | ✓ PASS | pytest will be used; tests to be defined before implementation |
+| V. Simplicity-First | ✓ PASS | Ursina Engine chosen for simplicity; no over-engineering |
+
+**Post-Design Re-check**: All principles continue to be satisfied after Phase 1 design.
 
 ## Project Structure
 
 ### Documentation (this feature)
 
 ```text
-specs/[###-feature]/
-├── plan.md              # This file (/speckit.plan command output)
-├── research.md          # Phase 0 output (/speckit.plan command)
-├── data-model.md        # Phase 1 output (/speckit.plan command)
-├── quickstart.md        # Phase 1 output (/speckit.plan command)
-├── contracts/           # Phase 1 output (/speckit.plan command)
-└── tasks.md             # Phase 2 output (/speckit.tasks command - NOT created by /speckit.plan)
+specs/001-minecraft-game/
+├── plan.md              # This file
+├── research.md          # Phase 0 output
+├── data-model.md        # Phase 1 output
+├── quickstart.md        # Phase 1 output
+├── contracts/           # Phase 1 output
+│   ├── game-api.md
+│   └── save-format.md
+└── tasks.md             # Phase 2 output (speckit.tasks)
 ```
 
 ### Source Code (repository root)
-<!--
-  ACTION REQUIRED: Replace the placeholder tree below with the concrete layout
-  for this feature. Delete unused options and expand the chosen structure with
-  real paths (e.g., apps/admin, packages/something). The delivered plan must
-  not include Option labels.
--->
 
 ```text
-# [REMOVE IF UNUSED] Option 1: Single project (DEFAULT)
 src/
-├── models/
-├── services/
-├── cli/
-└── lib/
+├── world/
+│   ├── chunk.py         # Chunk data and mesh
+│   ├── world.py         # World manager, procedural gen
+│   └── block.py         # Block types and properties
+├── player/
+│   ├── player.py        # Player controller (movement, physics)
+│   ├── inventory.py     # Inventory management
+│   └── health.py        # Health system
+├── entities/
+│   ├── enemy.py         # Enemy AI and behavior
+│   └── item_drop.py     # Dropped item entities
+├── crafting/
+│   ├── recipe.py        # Recipe definitions
+│   └── crafting_ui.py   # Crafting interface
+├── ui/
+│   ├── hud.py           # HUD (health bar, hotbar)
+│   └── main_menu.py     # Main menu
+├── persistence/
+│   └── save_manager.py  # Save/load world state
+└── main.py              # Entry point
 
 tests/
-├── contract/
+├── unit/
+│   ├── test_world.py
+│   ├── test_inventory.py
+│   ├── test_crafting.py
+│   ├── test_health.py
+│   └── test_save_manager.py
 ├── integration/
-└── unit/
-
-# [REMOVE IF UNUSED] Option 2: Web application (when "frontend" + "backend" detected)
-backend/
-├── src/
-│   ├── models/
-│   ├── services/
-│   └── api/
-└── tests/
-
-frontend/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   └── services/
-└── tests/
-
-# [REMOVE IF UNUSED] Option 3: Mobile + API (when "iOS/Android" detected)
-api/
-└── [same as backend above]
-
-ios/ or android/
-└── [platform-specific structure: feature modules, UI flows, platform tests]
+│   └── test_gameplay.py
+└── contract/
+    └── test_save_format.py
 ```
 
-**Structure Decision**: [Document the selected structure and reference the real
-directories captured above]
+**Structure Decision**: Single project layout. All game logic in `src/`, tests mirroring the source structure. Ursina Engine handles rendering; game logic is in pure Python modules for testability.
 
 ## Complexity Tracking
 
-> **Fill ONLY if Constitution Check has violations that must be justified**
-
-| Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
-| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |
+*No constitution violations found. No complexity justification required.*
