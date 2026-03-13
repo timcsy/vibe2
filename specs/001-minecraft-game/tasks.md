@@ -206,8 +206,8 @@
 
 ```bash
 # Launch both test-writing tasks together (TDD phase):
-Task: "Write unit tests for Chunk in tests/unit/test_world.py"      # T008
-Task: "Write unit tests for World in tests/unit/test_world.py"       # T009
+Task: "Write unit tests for Chunk in tests/unit/test_world.py"  # T008
+Task: "Write unit tests for World in tests/unit/test_world.py"  # T009
 
 # After tests fail, implement sequentially:
 Task: "Implement Chunk class in src/world/chunk.py"                  # T010
