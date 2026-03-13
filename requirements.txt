@@ -1,0 +1,4 @@
+ursina>=6.0.0
+noise>=1.2.2
+pytest>=7.0.0
+pytest-mock>=3.0.0
